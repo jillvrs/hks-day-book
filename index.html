@@ -1,0 +1,1419 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3D6342">
+<meta name="apple-mobile-web-app-title" content="HKS Day Book">
+<title>HKS Day Book</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%233D6342'/%3E%3Ctext x='50' y='69' font-size='54' text-anchor='middle' fill='white' font-family='Georgia,serif'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+  :root {
+    --bg: #EFEDE2;
+    --card: #FBFAF3;
+    --card-raised: #FFFFFF;
+    --ink: #252B1E;
+    --muted: #6E7263;
+    --faint: #9A9E8E;
+    --line: #DAD8C7;
+    --line-soft: #E6E4D6;
+    --accent: #3D6342;
+    --accent-soft: #E3EADF;
+    --accent-ink: #F4F7F1;
+    --danger: #A8402C;
+    --danger-soft: #F3E2DC;
+    --amber: #8F6318;
+    --amber-soft: #F0E6CE;
+    --carl-fg: #35573B; --carl-bg: #DFE8DC;
+    --billy-fg: #3A5578; --billy-bg: #DEE5EE;
+    --athol-fg: #7A4E22; --athol-bg: #EEE3D3;
+    --han-fg: #63447A; --han-bg: #E9E0EF;
+    --shadow: 0 1px 2px rgba(40, 44, 30, .08), 0 4px 14px rgba(40, 44, 30, .07);
+    --shadow-lift: 0 6px 14px rgba(40, 44, 30, .18), 0 14px 34px rgba(40, 44, 30, .18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #171A13;
+      --card: #21261D;
+      --card-raised: #272D22;
+      --ink: #E9E8DB;
+      --muted: #A2A794;
+      --faint: #767B6A;
+      --line: #363C2F;
+      --line-soft: #2C3226;
+      --accent: #85AD89;
+      --accent-soft: #2C3A2D;
+      --accent-ink: #14200F;
+      --danger: #DD8D77;
+      --danger-soft: #45241C;
+      --amber: #D8AC5C;
+      --amber-soft: #3D311E;
+      --carl-fg: #A9CBA9; --carl-bg: #2B3B2C;
+      --billy-fg: #A6C0DF; --billy-bg: #27313F;
+      --athol-fg: #DCB183; --athol-bg: #3D2F1E;
+      --han-fg: #C9AADB; --han-bg: #362B40;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.3);
+      --shadow-lift: 0 6px 14px rgba(0,0,0,.5), 0 14px 34px rgba(0,0,0,.5);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.45;
+    padding: env(safe-area-inset-top, 0px) 16px calc(20px + env(safe-area-inset-bottom, 0px));
+    -webkit-tap-highlight-color: transparent;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  .wrap { max-width: 640px; margin: 0 auto; padding-block: 8px 80px; }
+
+  header { text-align: center; padding-block: 22px 10px; }
+  .wordmark {
+    font-family: Marcellus, Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(24px, 6vw, 32px);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .rule {
+    display: flex; align-items: center; gap: 10px;
+    margin: 14px auto 0; max-width: 300px;
+    color: var(--faint);
+  }
+  .rule::before, .rule::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+  .rule svg { display: block; }
+
+  .tabs {
+    display: flex; gap: 6px;
+    background: var(--line-soft);
+    border-radius: 12px; padding: 4px;
+    margin-block: 18px 14px;
+  }
+  .tab {
+    flex: 1; border: 0; background: transparent;
+    font: inherit; font-weight: 600; color: var(--muted);
+    padding: 9px 8px; border-radius: 9px; cursor: pointer;
+  }
+  .tab[aria-selected="true"] {
+    background: var(--card-raised); color: var(--ink); box-shadow: var(--shadow);
+  }
+  .tab .count {
+    display: inline-block; min-width: 22px; margin-left: 6px;
+    font-size: 12.5px; font-weight: 700;
+    background: var(--accent-soft); color: var(--accent);
+    border-radius: 99px; padding: 1px 7px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tab[aria-selected="false"] .count { background: transparent; color: var(--faint); }
+
+  .addbar { display: flex; gap: 8px; margin-bottom: 6px; }
+  .addbar input {
+    flex: 1; min-width: 0;
+    font: inherit; color: var(--ink);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 14px;
+  }
+  .addbar input::placeholder { color: var(--faint); }
+  .addbar input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .addbar button {
+    font: inherit; font-weight: 700;
+    background: var(--accent); color: var(--accent-ink);
+    border: 0; border-radius: 12px; padding: 0 20px; cursor: pointer;
+  }
+  .addbar button:active { filter: brightness(.92); }
+  .addbar .mic {
+    flex: none; width: 48px; padding: 0;
+    background: var(--card); color: var(--accent);
+    border: 1px solid var(--line);
+    display: grid; place-items: center;
+  }
+  .addstatus { min-height: 20px; font-size: 13.5px; color: var(--muted); margin: 0 2px 10px; }
+
+  .notice {
+    background: var(--amber-soft); color: var(--amber);
+    border-radius: 10px; padding: 10px 14px;
+    font-size: 14.5px; margin-bottom: 14px;
+  }
+
+  ul.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  li.card {
+    background: var(--card);
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    user-select: none; -webkit-user-select: none;
+    position: relative;
+  }
+  li.card.dragging {
+    box-shadow: var(--shadow-lift);
+    z-index: 5;
+    background: var(--card-raised);
+  }
+  li.card.shifting { transition: transform .15s ease; }
+
+  .row { display: flex; align-items: flex-start; gap: 4px; padding: 12px 6px 12px 12px; }
+
+  .check {
+    flex: none; width: 28px; height: 28px; margin-top: 2px;
+    border: 2px solid var(--faint); border-radius: 50%;
+    background: transparent; cursor: pointer; padding: 0;
+    display: grid; place-items: center;
+    color: transparent;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .check:hover { border-color: var(--accent); }
+  .check.on, .check:active {
+    background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
+  }
+  .done-view .check { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  .body { flex: 1; min-width: 0; padding-inline: 8px 4px; cursor: pointer; }
+  .title { font-weight: 600; overflow-wrap: break-word; }
+  .done-view .title { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--faint); }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 5px; }
+  .meta:empty { display: none; }
+  .chip {
+    font-size: 12.5px; font-weight: 700; letter-spacing: .02em;
+    border-radius: 99px; padding: 2px 9px;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .chip.who-Carl  { background: var(--carl-bg);  color: var(--carl-fg); }
+  .chip.who-Billy { background: var(--billy-bg); color: var(--billy-fg); }
+  .chip.who-Athol { background: var(--athol-bg); color: var(--athol-fg); }
+  .chip.who-Han   { background: var(--han-bg);   color: var(--han-fg); }
+  .chip.due       { background: var(--line-soft); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .chip.cont      { background: var(--accent-soft); color: var(--accent); }
+  .chip.due.today   { background: var(--amber-soft); color: var(--amber); }
+  .chip.due.overdue { background: var(--danger-soft); color: var(--danger); }
+  .notepreview {
+    font-size: 14px; color: var(--muted); margin-top: 4px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .thumb {
+    flex: none; width: 52px; height: 52px; margin-top: 1px;
+    border-radius: 9px; object-fit: cover;
+    border: 1px solid var(--line); cursor: zoom-in;
+    background: var(--line-soft);
+  }
+
+  .handle {
+    flex: none; width: 36px; align-self: stretch;
+    display: grid; place-items: center;
+    color: var(--faint); cursor: grab;
+    touch-action: none;
+    -webkit-touch-callout: none;
+    border: 0; background: transparent; padding: 0;
+  }
+  .handle:active { cursor: grabbing; color: var(--muted); }
+
+  .editor {
+    border-top: 1px solid var(--line-soft);
+    padding: 14px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .editor label { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 5px; }
+  .editor input[type="text"], .editor textarea, .editor input[type="date"] {
+    width: 100%; font: inherit; color: var(--ink);
+    background: var(--card-raised);
+    border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px;
+  }
+  .editor textarea { resize: vertical; min-height: 60px; }
+  .editor :is(input, textarea):focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .editor input[type="date"] { max-width: 220px; min-height: 42px; }
+
+  .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+  .seg button {
+    font: inherit; font-weight: 600; font-size: 14.5px;
+    border: 1px solid var(--line); background: var(--card-raised); color: var(--muted);
+    border-radius: 99px; padding: 7px 16px; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  .photo-block { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .photo-block img { width: 84px; height: 84px; border-radius: 10px; object-fit: cover; border: 1px solid var(--line); cursor: zoom-in; }
+  .btn {
+    font: inherit; font-weight: 600; font-size: 14.5px;
+    border: 1px solid var(--line); background: var(--card-raised); color: var(--ink);
+    border-radius: 10px; padding: 8px 14px; cursor: pointer;
+  }
+  .btn:active { filter: brightness(.95); }
+  .btn.quiet { color: var(--muted); }
+  .btn.danger { color: var(--danger); border-color: var(--danger-soft); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .editor-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid var(--line-soft); padding-top: 12px; }
+  .busy { font-size: 13.5px; color: var(--muted); }
+
+  .doneinfo { font-size: 13px; color: var(--faint); margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+  .sectionhead {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--muted); font-size: 13px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    margin: 26px 2px 12px;
+  }
+  .sectionhead::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+  .cycle {
+    flex: none; width: 28px; height: 28px; margin-top: 2px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--accent-soft); color: var(--accent);
+  }
+
+  .empty {
+    text-align: center; color: var(--muted);
+    padding: 48px 20px; border: 1.5px dashed var(--line); border-radius: 14px;
+  }
+  .empty .big { font-family: Marcellus, Georgia, serif; font-size: 19px; color: var(--ink); margin-bottom: 6px; }
+  .hidden { display: none !important; }
+
+  .lightbox {
+    position: fixed; inset: 0; z-index: 50;
+    background: rgba(12, 14, 9, .88);
+    display: grid; place-items: center; padding: 20px;
+    cursor: zoom-out;
+  }
+  .lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+
+  .scrim {
+    position: fixed; inset: 0; z-index: 40;
+    background: rgba(12, 14, 9, .45);
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .sheet {
+    background: var(--card-raised); color: var(--ink);
+    width: 100%; max-width: 640px;
+    border-radius: 18px 18px 0 0;
+    box-shadow: var(--shadow-lift);
+    padding: 20px 18px calc(20px + env(safe-area-inset-bottom, 0px));
+    display: flex; flex-direction: column; gap: 14px;
+    max-height: 80vh; overflow-y: auto;
+  }
+  .sheet h2 {
+    font-family: Marcellus, Georgia, serif; font-weight: 400;
+    font-size: 19px; margin: 0; letter-spacing: .04em;
+  }
+  .sheet .hint { color: var(--muted); font-size: 14.5px; margin: 0; }
+  .transcript {
+    min-height: 84px; border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; background: var(--card);
+    font-size: 16px; white-space: pre-wrap;
+  }
+  .transcript .interim { color: var(--faint); }
+  .transcript:empty::before { content: "Listening\2026"; color: var(--faint); }
+  textarea.dictate-box {
+    width: 100%; font: inherit; color: var(--ink);
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 14px; min-height: 110px; resize: vertical;
+  }
+  textarea.dictate-box:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .pulse {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--danger); display: inline-block; vertical-align: -1px; margin-right: 8px;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } li.card.shifting { transition: none; } }
+  .sheet-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+  .gatewrap {
+    position: fixed; inset: 0; z-index: 60;
+    background: var(--bg);
+    display: grid; place-items: center; padding: 24px;
+  }
+  .gate {
+    width: 100%; max-width: 380px; text-align: center;
+    background: var(--card); border: 1px solid var(--line-soft);
+    border-radius: 16px; box-shadow: var(--shadow);
+    padding: 30px 24px;
+  }
+  .gate h2 {
+    font-family: Marcellus, Georgia, serif; font-weight: 400;
+    letter-spacing: .1em; text-transform: uppercase;
+    font-size: 20px; margin: 0 0 4px;
+  }
+  .gate .gsub { color: var(--muted); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 20px; }
+  .gate input {
+    width: 100%; font: inherit; text-align: center; color: var(--ink);
+    background: var(--card-raised); border: 1px solid var(--line);
+    border-radius: 10px; padding: 11px 12px; margin-bottom: 10px;
+  }
+  .gate input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .gate button { width: 100%; }
+  .gate .err { color: var(--danger); font-size: 14px; min-height: 20px; margin-top: 8px; }
+
+  footer { text-align: center; color: var(--faint); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; margin-top: 44px; }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<div class="gatewrap" id="gate" hidden>
+  <form class="gate" id="gate-form">
+    <h2>HKS</h2>
+    <div class="gsub">Day Book</div>
+    <input id="gate-input" type="text" placeholder="Team code" autocomplete="off" autocapitalize="none" spellcheck="false">
+    <button class="btn primary" type="submit">Open the book</button>
+    <div class="err" id="gate-err"></div>
+  </form>
+</div>
+
+<div class="wrap">
+  <header>
+    <h1 class="wordmark">HKS</h1>
+    <div class="sub">Day Book</div>
+    <div class="rule" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <path d="M12 21c0-6 0-9 0-11m0 0c0-3 2-6 5-7-0 3-1 6-5 7Zm0 0C12 7 10 4 7 3c0 3 1 6 5 7Z"/>
+      </svg>
+    </div>
+  </header>
+
+  <div id="notice" class="notice hidden"></div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab-todo" role="tab" aria-selected="true">To do<span class="count" id="count-todo">0</span></button>
+    <button class="tab" id="tab-done" role="tab" aria-selected="false">Completed<span class="count" id="count-done">0</span></button>
+  </div>
+
+  <form class="addbar" id="addbar">
+    <input id="add-input" type="text" placeholder="Add a task&hellip;" autocomplete="off" maxlength="1000" enterkeyhint="done">
+    <button type="submit">Add</button>
+    <button type="button" class="mic" id="mic-btn" aria-label="Dictate tasks">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="2.5" width="6" height="11" rx="3"/>
+        <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/>
+      </svg>
+    </button>
+  </form>
+  <div class="addstatus" id="addstatus"></div>
+
+  <ul class="list" id="list-todo"></ul>
+  <div class="empty hidden" id="empty-todo">
+    <div class="big">All clear</div>
+    <div>Add the first task above.</div>
+  </div>
+
+  <div class="sectionhead hidden" id="ongoing-head">Ongoing tasks</div>
+  <ul class="list" id="list-ongoing"></ul>
+
+  <ul class="list hidden" id="list-done"></ul>
+  <div class="empty hidden" id="empty-done">
+    <div class="big">Nothing completed yet</div>
+    <div>Ticked-off tasks will appear here.</div>
+  </div>
+
+  <footer>Personal task list</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var SUPA = "https://cvfwwyscremgydmcjsxh.supabase.co";
+  var KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Znd3eXNjcmVtZ3lkbWNqc3hoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NzM1MDcsImV4cCI6MjEwMjU0OTUwN30.HA7w19LjGTAYP6MmuppQAOD55H8COiWKDi_5l8n5fCs";
+  var PEOPLE = [];
+
+  var CODE = null;
+  try { CODE = localStorage.getItem("hksCode"); } catch (e) {}
+
+  var tasks = [];
+  var view = "todo";
+  var expandedId = null;
+  var renderPending = false;
+  var firstLoad = false;
+  var writeQueues = {};
+  var pollTimer = null;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var listTodo = $("list-todo"), listDone = $("list-done"), listOngoing = $("list-ongoing");
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  // ---------- REST helpers ----------
+
+  function headers(extra) {
+    var h = {
+      "apikey": KEY,
+      "Authorization": "Bearer " + KEY,
+      "x-hks-code": CODE || ""
+    };
+    if (extra) for (var k in extra) h[k] = extra[k];
+    return h;
+  }
+
+  function restGet(path) {
+    return fetch(SUPA + path, { headers: headers() }).then(function (r) {
+      if (!r.ok) throw new Error("GET " + r.status);
+      return r.json();
+    });
+  }
+  function restSend(method, path, body, extra) {
+    var h = headers(extra || {});
+    if (body != null) h["Content-Type"] = "application/json";
+    return fetch(SUPA + path, {
+      method: method,
+      headers: h,
+      body: body != null ? JSON.stringify(body) : undefined
+    }).then(function (r) {
+      if (!r.ok) throw new Error(method + " " + r.status);
+      return r;
+    });
+  }
+
+  function fromRow(r) {
+    var who = Array.isArray(r.assignees) ? r.assignees : (r.assignee ? [r.assignee] : []);
+    return {
+      id: r.id, title: r.title, note: r.note || "",
+      assignees: PEOPLE.filter(function (p) { return who.indexOf(p) >= 0; }),
+      due: r.due, photo: r.photo,
+      order: (typeof r.ord === "number") ? r.ord : 0,
+      done: !!r.done, continuous: !!r.continuous,
+      doneLog: Array.isArray(r.done_log) ? r.done_log : [],
+      createdAt: r.created_at, completedAt: r.completed_at
+    };
+  }
+  function toDb(patch) {
+    var out = {};
+    for (var k in patch) {
+      if (k === "order") out.ord = patch[k];
+      else if (k === "completedAt") out.completed_at = patch[k];
+      else if (k === "createdAt") out.created_at = patch[k];
+      else if (k === "doneLog") out.done_log = patch[k];
+      else out[k] = patch[k];
+    }
+    return out;
+  }
+
+  // ---------- data ----------
+
+  function notice(msg) {
+    var n = $("notice");
+    if (!msg) { n.classList.add("hidden"); return; }
+    n.textContent = msg;
+    n.classList.remove("hidden");
+  }
+  var noticeTimer = null;
+  function tempNotice(msg, ms) {
+    notice(msg);
+    if (noticeTimer) clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(function () { notice(null); }, ms || 5000);
+  }
+  function setStatus(msg) { $("addstatus").textContent = msg || ""; }
+
+  function loadTasks() {
+    return restGet("/rest/v1/personal_tasks?select=*&order=ord.asc").then(function (rows) {
+      tasks = rows.map(fromRow);
+      firstLoad = true;
+      scheduleRender();
+    }).catch(function (e) {
+      console.error(e);
+      if (!firstLoad) notice("Can’t reach the list — check your signal and pull to refresh.");
+    });
+  }
+
+  function queueWrite(id, fn) {
+    var chain = (writeQueues[id] || Promise.resolve()).then(fn).catch(function (e) {
+      console.error("write failed", e);
+      tempNotice("A change could not be saved — check your connection and try again.", 6000);
+      return loadTasks();
+    });
+    writeQueues[id] = chain;
+    return chain;
+  }
+
+  function patchTask(id, patch) {
+    for (var i = 0; i < tasks.length; i++) {
+      if (tasks[i].id === id) { tasks[i] = Object.assign({}, tasks[i], patch); break; }
+    }
+    queueWrite(id, function () {
+      return restSend("PATCH", "/rest/v1/personal_tasks?id=eq." + id, toDb(patch), { "Prefer": "return=minimal" });
+    });
+  }
+
+  function createTask(data) {
+    return restSend("POST", "/rest/v1/personal_tasks", toDb(data), { "Prefer": "return=minimal" });
+  }
+
+  function activeTasks() {
+    // Due date rules the order (earliest first, undated last);
+    // drag order breaks ties within the same date group.
+    return tasks.filter(function (t) { return !t.done && !t.continuous; })
+      .sort(function (a, b) {
+        var ad = a.due || "", bd = b.due || "";
+        if (ad && bd) { if (ad < bd) return -1; if (ad > bd) return 1; }
+        else if (ad) return -1;
+        else if (bd) return 1;
+        return (a.order || 0) - (b.order || 0);
+      });
+  }
+  function ongoingTasks() {
+    return tasks.filter(function (t) { return !t.done && t.continuous; })
+      .sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+  }
+  function maxOrderOngoing() {
+    var m = 0;
+    ongoingTasks().forEach(function (t) { if ((t.order || 0) > m) m = t.order; });
+    return m;
+  }
+  function doneTasks() {
+    return tasks.filter(function (t) { return t.done; })
+      .sort(function (a, b) { return String(b.completedAt || "").localeCompare(String(a.completedAt || "")); });
+  }
+  function maxOrder() {
+    var m = 0;
+    tasks.forEach(function (t) { if (!t.done && !t.continuous && typeof t.order === "number" && t.order > m) m = t.order; });
+    return m;
+  }
+
+  // ---------- dates ----------
+
+  function todayStr() {
+    var d = new Date();
+    var mm = String(d.getMonth() + 1); if (mm.length < 2) mm = "0" + mm;
+    var dd = String(d.getDate()); if (dd.length < 2) dd = "0" + dd;
+    return d.getFullYear() + "-" + mm + "-" + dd;
+  }
+  function fmtDue(iso) {
+    var d = new Date(iso + "T12:00:00");
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+  }
+  function fmtDone(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return "";
+    return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+  }
+
+  function photoUrl(p) {
+    return SUPA + "/storage/v1/object/public/personal-photos/" + encodeURIComponent(p);
+  }
+
+  // ---------- render ----------
+
+  function scheduleRender() {
+    var a = document.activeElement;
+    if (a && a.closest && a.closest(".editor")) { renderPending = true; return; }
+    render();
+  }
+
+  function render() {
+    renderPending = false;
+    var act = activeTasks(), ong = ongoingTasks(), done = doneTasks();
+
+    $("count-todo").textContent = act.length + ong.length;
+    $("count-done").textContent = done.length;
+    $("tab-todo").setAttribute("aria-selected", view === "todo");
+    $("tab-done").setAttribute("aria-selected", view === "done");
+
+    $("addbar").classList.toggle("hidden", view !== "todo");
+    $("addstatus").classList.toggle("hidden", view !== "todo");
+    listTodo.classList.toggle("hidden", view !== "todo");
+    listOngoing.classList.toggle("hidden", view !== "todo");
+    $("ongoing-head").classList.toggle("hidden", !(view === "todo" && ong.length > 0));
+    listDone.classList.toggle("hidden", view !== "done");
+    $("empty-todo").classList.toggle("hidden", !(view === "todo" && firstLoad && act.length === 0 && ong.length === 0));
+    $("empty-done").classList.toggle("hidden", !(view === "done" && done.length === 0));
+
+    listTodo.replaceChildren.apply(listTodo, act.map(function (t) { return buildCard(t, false); }));
+    listOngoing.replaceChildren.apply(listOngoing, ong.map(function (t) { return buildCard(t, false); }));
+    listDone.replaceChildren.apply(listDone, done.map(function (t) { return buildCard(t, true); }));
+  }
+
+  function buildCard(t, isDone) {
+    var li = el("li", "card" + (isDone ? " done-view" : ""));
+    li.dataset.id = t.id;
+
+    var row = el("div", "row");
+
+    var check = el("button", "check");
+    check.setAttribute("aria-label",
+      isDone ? "Mark as not done" : (t.continuous ? "Log as done today" : "Mark as done"));
+    check.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 10 18 19.5 6.5"/></svg>';
+    check.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (isDone) restoreTask(t.id);
+      else if (t.continuous) logContinuous(t.id, check);
+      else completeTask(t.id, check);
+    });
+    row.appendChild(check);
+
+    var body = el("div", "body");
+    body.appendChild(el("div", "title", t.title || "Untitled task"));
+
+    var meta = el("div", "meta");
+    (t.assignees || []).forEach(function (p) {
+      if (PEOPLE.indexOf(p) >= 0) meta.appendChild(el("span", "chip who-" + p, p));
+    });
+    if (!isDone && t.continuous) {
+      meta.appendChild(el("span", "chip cont", "Continuous"));
+    }
+    if (!isDone && !t.continuous && t.due) {
+      var cls = "chip due";
+      var today = todayStr();
+      if (t.due < today) cls += " overdue";
+      else if (t.due === today) cls += " today";
+      meta.appendChild(el("span", cls, (t.due < today ? "Overdue · " : "") + fmtDue(t.due)));
+    }
+    if (meta.childNodes.length) body.appendChild(meta);
+
+    if (t.note) body.appendChild(el("div", "notepreview", t.note));
+    if (!isDone && t.continuous && t.doneLog && t.doneLog.length) {
+      body.appendChild(el("div", "doneinfo", "Last done " + fmtDone(t.doneLog[t.doneLog.length - 1])));
+    }
+    if (isDone && t.completedAt) body.appendChild(el("div", "doneinfo", "Completed " + fmtDone(t.completedAt)));
+
+    body.addEventListener("click", function () {
+      expandedId = (expandedId === t.id) ? null : t.id;
+      render();
+    });
+    row.appendChild(body);
+
+    if (t.photo) {
+      var img = el("img", "thumb");
+      img.src = photoUrl(t.photo);
+      img.alt = "Task photo";
+      img.addEventListener("click", function (e) { e.stopPropagation(); openLightbox(t.photo); });
+      row.appendChild(img);
+    }
+
+    if (!isDone) {
+      var handle = el("button", "handle");
+      handle.setAttribute("aria-label", "Drag to reorder");
+      handle.innerHTML = '<svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor"><circle cx="5" cy="4" r="1.7"/><circle cx="11" cy="4" r="1.7"/><circle cx="5" cy="10" r="1.7"/><circle cx="11" cy="10" r="1.7"/><circle cx="5" cy="16" r="1.7"/><circle cx="11" cy="16" r="1.7"/></svg>';
+      handle.addEventListener("pointerdown", function (e) { startDrag(e, li); });
+      row.appendChild(handle);
+    }
+
+    li.appendChild(row);
+    if (expandedId === t.id) li.appendChild(buildEditor(t, isDone));
+    return li;
+  }
+
+  // ---------- editor ----------
+
+  function buildEditor(t, isDone) {
+    var ed = el("div", "editor");
+
+    var fTitle = el("div");
+    fTitle.appendChild(el("label", null, "Task"));
+    var inTitle = el("input");
+    inTitle.type = "text"; inTitle.value = t.title || ""; inTitle.maxLength = 300;
+    inTitle.id = "ed-title-" + t.id;
+    inTitle.addEventListener("change", function () {
+      var v = inTitle.value.trim();
+      if (v && v !== t.title) patchTask(t.id, { title: v });
+    });
+    inTitle.addEventListener("blur", flushRender);
+    fTitle.appendChild(inTitle);
+    ed.appendChild(fTitle);
+
+    var fNote = el("div");
+    fNote.appendChild(el("label", null, "Details / comment"));
+    var inNote = el("textarea");
+    inNote.value = t.note || ""; inNote.maxLength = 2000;
+    inNote.placeholder = "Anything the person doing it should know…";
+    inNote.id = "ed-note-" + t.id;
+    inNote.addEventListener("change", function () {
+      if (inNote.value !== (t.note || "")) patchTask(t.id, { note: inNote.value });
+    });
+    inNote.addEventListener("blur", flushRender);
+    fNote.appendChild(inNote);
+    ed.appendChild(fNote);
+
+    var fWho = el("div");
+    fWho.appendChild(el("label", null, "Who’s on it (tap several)"));
+    var seg = el("div", "seg");
+    PEOPLE.forEach(function (p) {
+      var b = el("button", null, p);
+      b.type = "button";
+      b.setAttribute("aria-pressed", (t.assignees || []).indexOf(p) >= 0);
+      b.addEventListener("click", function () {
+        var cur = (t.assignees || []).slice();
+        var i = cur.indexOf(p);
+        if (i >= 0) cur.splice(i, 1); else cur.push(p);
+        // keep a stable Carl/Billy/Athol order on the chips
+        cur = PEOPLE.filter(function (q) { return cur.indexOf(q) >= 0; });
+        patchTask(t.id, { assignees: cur });
+        render();
+      });
+      seg.appendChild(b);
+    });
+    fWho.appendChild(seg);
+    // no people picker on a personal list
+
+    if (!isDone) {
+      var fType = el("div");
+      fType.appendChild(el("label", null, "Type"));
+      var tseg = el("div", "seg");
+      [["One-off task", false], ["Ongoing task", true]].forEach(function (opt) {
+        var b = el("button", null, opt[0]);
+        b.type = "button";
+        b.setAttribute("aria-pressed", t.continuous === opt[1]);
+        b.addEventListener("click", function () {
+          if (t.continuous === opt[1]) return;
+          var patch = { continuous: opt[1] };
+          if (opt[1]) { patch.due = null; patch.order = maxOrderOngoing() + 1; }
+          else { patch.order = maxOrder() + 1; }
+          patchTask(t.id, patch);
+          render();
+        });
+        tseg.appendChild(b);
+      });
+      fType.appendChild(tseg);
+      ed.appendChild(fType);
+
+      if (t.continuous && t.doneLog && t.doneLog.length) {
+        var fLog = el("div");
+        fLog.appendChild(el("label", null, "Done log · " + t.doneLog.length + (t.doneLog.length === 1 ? " time" : " times")));
+        var lg = el("div", "busy");
+        lg.textContent = t.doneLog.slice(-6).reverse().map(function (d) {
+          var dt = new Date(d);
+          return isNaN(dt) ? "" : dt.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+        }).filter(Boolean).join("  ·  ");
+        fLog.appendChild(lg);
+        ed.appendChild(fLog);
+      }
+    }
+
+    var fDue = el("div");
+    fDue.appendChild(el("label", null, "Target date"));
+    var dueRow = el("div", "photo-block");
+    var inDue = el("input");
+    inDue.type = "date"; inDue.value = t.due || "";
+    inDue.id = "ed-due-" + t.id;
+    inDue.addEventListener("change", function () {
+      patchTask(t.id, { due: inDue.value || null });
+    });
+    inDue.addEventListener("blur", flushRender);
+    dueRow.appendChild(inDue);
+    if (t.due) {
+      var clr = el("button", "btn quiet", "Clear");
+      clr.type = "button";
+      clr.addEventListener("click", function () { patchTask(t.id, { due: null }); render(); });
+      dueRow.appendChild(clr);
+    }
+    fDue.appendChild(dueRow);
+    if (!t.continuous) ed.appendChild(fDue);
+
+    var fPhoto = el("div");
+    fPhoto.appendChild(el("label", null, "Photo of the spot"));
+    var pb = el("div", "photo-block");
+    if (t.photo) {
+      var big = el("img");
+      big.src = photoUrl(t.photo); big.alt = "Task photo";
+      big.addEventListener("click", function () { openLightbox(t.photo); });
+      pb.appendChild(big);
+    }
+    var file = el("input");
+    file.type = "file"; file.accept = "image/*"; file.hidden = true;
+    var addBtn = el("button", "btn", t.photo ? "Replace photo" : "Add photo");
+    addBtn.type = "button";
+    var status = el("span", "busy", "");
+    addBtn.addEventListener("click", function () { file.click(); });
+    file.addEventListener("change", function () {
+      if (file.files && file.files[0]) uploadPhoto(t, file.files[0], addBtn, status);
+    });
+    pb.appendChild(addBtn);
+    if (t.photo) {
+      var rm = el("button", "btn quiet", "Remove");
+      rm.type = "button";
+      rm.addEventListener("click", function () {
+        var old = t.photo;
+        patchTask(t.id, { photo: null });
+        deletePhotoFile(old);
+        render();
+      });
+      pb.appendChild(rm);
+    }
+    pb.appendChild(status);
+    pb.appendChild(file);
+    fPhoto.appendChild(pb);
+    ed.appendChild(fPhoto);
+
+    var foot = el("div", "editor-foot");
+    var del = el("button", "btn danger", "Delete task");
+    del.type = "button";
+    del.addEventListener("click", function () {
+      if (!confirm("Delete “" + (t.title || "this task") + "” for everyone? This can’t be undone.")) return;
+      var old = t.photo;
+      tasks = tasks.filter(function (x) { return x.id !== t.id; });
+      expandedId = null;
+      queueWrite(t.id, function () {
+        return restSend("DELETE", "/rest/v1/personal_tasks?id=eq." + t.id, null);
+      });
+      deletePhotoFile(old);
+      render();
+    });
+    var close = el("button", "btn quiet", "Close");
+    close.type = "button";
+    close.addEventListener("click", function () { expandedId = null; render(); });
+    foot.appendChild(del);
+    foot.appendChild(close);
+    ed.appendChild(foot);
+
+    return ed;
+  }
+
+  function flushRender() {
+    setTimeout(function () {
+      var a = document.activeElement;
+      if (renderPending && !(a && a.closest && a.closest(".editor"))) render();
+    }, 80);
+  }
+
+  // ---------- actions ----------
+
+  function addRaw(text) {
+    var data = {
+      title: text.slice(0, 300), note: "", assignees: [], due: null, photo: null,
+      order: maxOrder() + 1, done: false, continuous: false
+    };
+    // optimistic placeholder until the reload brings the real row
+    tasks.push(Object.assign({ id: "tmp-" + Date.now(), createdAt: null, completedAt: null }, data));
+    render();
+    return createTask(data).then(loadTasks).catch(function (e) {
+      console.error(e);
+      tempNotice("Couldn’t add the task — check your connection and try again.", 6000);
+      return loadTasks();
+    });
+  }
+
+  var PARSE_HINT = /(\bby\b|\bbefore\b|\bafter\b|end of|target|\bnext\b|tomorrow|\btoday\b|\bweek\b|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|\bmay\b|june|july|august|september|october|november|december|christmas|easter)/i;
+
+  var MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+  // "24 december", "dec 24", "24 Dec 2026", "2026-12-24" -> ISO date (next occurrence if no year)
+  function parseLooseDate(s) {
+    s = String(s).toLowerCase().trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+    var day = null, mon = -1, year = null;
+    var dm = s.match(/\b(\d{1,2})(?:st|nd|rd|th)?\b/);
+    if (dm) day = parseInt(dm[1], 10);
+    var ym = s.match(/\b(20\d{2})\b/);
+    if (ym) year = parseInt(ym[1], 10);
+    for (var i = 0; i < 12; i++) {
+      if (s.indexOf(MONTHS[i].slice(0, 3)) >= 0) { mon = i; break; }
+    }
+    if (mon < 0 || !day || day < 1 || day > 31) return null;
+    if (!year) {
+      var now = new Date();
+      year = now.getFullYear();
+      if (new Date(year, mon, day) < new Date(now.getFullYear(), now.getMonth(), now.getDate())) year++;
+    }
+    var mm = String(mon + 1); if (mm.length < 2) mm = "0" + mm;
+    var dd = String(day); if (dd.length < 2) dd = "0" + dd;
+    return year + "-" + mm + "-" + dd;
+  }
+
+  // Basic "title - date - person" splitter for when Claude isn't reachable
+  function localParse(text) {
+    var parts = text.split(/\s+[-–—]\s+/);
+    if (parts.length < 2) return null;
+    var title = parts[0].trim();
+    if (!title) return null;
+    var assignees = [], due = null, noteBits = [];
+    function personFor(word) {
+      for (var p = 0; p < PEOPLE.length; p++) {
+        if (word.toLowerCase() === PEOPLE[p].toLowerCase()) return PEOPLE[p];
+      }
+      return null;
+    }
+    for (var i = 1; i < parts.length; i++) {
+      var seg = parts[i].trim();
+      if (!seg) continue;
+      // "Carl", "Carl and Billy", "Carl & Billy", "Carl, Billy"
+      var subs = seg.split(/\s*(?:,|&|\+|\band\b)\s*/i).filter(function (s) { return s; });
+      var people = subs.map(personFor);
+      var allPeople = subs.length > 0 && people.indexOf(null) < 0;
+      var d = parseLooseDate(seg);
+      if (allPeople) {
+        people.forEach(function (w) { if (assignees.indexOf(w) < 0) assignees.push(w); });
+      } else if (d && !due) {
+        due = d;
+      } else {
+        noteBits.push(seg);
+      }
+    }
+    if (!assignees.length && !due) return null;
+    return {
+      title: title.slice(0, 300), note: noteBits.join(". ").slice(0, 2000),
+      assignees: PEOPLE.filter(function (q) { return assignees.indexOf(q) >= 0; }),
+      due: due, continuous: false
+    };
+  }
+
+  function smartAdd(text, force) {
+    text = text.trim();
+    if (!text) return;
+    if (!force && !PARSE_HINT.test(text) && text.length <= 60) { addRaw(text); return; }
+
+    setStatus("Sorting with Claude…");
+    fetch(SUPA + "/functions/v1/personal-parse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-hks-code": CODE || "" },
+      body: JSON.stringify({ text: text, today: todayStr() })
+    }).then(function (r) {
+      return r.json().then(function (data) {
+        if (!r.ok) { data._status = r.status; throw data; }
+        return data;
+      });
+    }).then(function (out) {
+      var items = (out && Array.isArray(out.tasks)) ? out.tasks : [];
+      items = items.slice(0, 20).map(function (it) {
+        var cont = it.continuous === true;
+        var raw = Array.isArray(it.assignees) ? it.assignees : (it.assignee ? [it.assignee] : []);
+        raw = raw.map(function (w) { return String(w); });
+        return {
+          title: String(it.title || "").slice(0, 300).trim() || "Untitled task",
+          note: String(it.note || "").slice(0, 2000).trim(),
+          assignees: PEOPLE.filter(function (p) {
+            return raw.some(function (w) { return w.toLowerCase() === p.toLowerCase(); });
+          }),
+          due: (!cont && /^\d{4}-\d{2}-\d{2}$/.test(String(it.due || ""))) ? it.due : null,
+          continuous: cont
+        };
+      }).filter(function (it) { return it.title !== "Untitled task" || it.note; });
+      // One submission is always ONE task: if Claude split it anyway, merge back
+      if (items.length > 1) {
+        var first = items[0];
+        var extraNotes = [];
+        for (var k = 1; k < items.length; k++) {
+          var ex = items[k];
+          extraNotes.push(ex.title + (ex.note ? " — " + ex.note : ""));
+          ex.assignees.forEach(function (p) { if (first.assignees.indexOf(p) < 0) first.assignees.push(p); });
+          if (ex.due && (!first.due || ex.due < first.due)) first.due = ex.due;
+        }
+        first.assignees = PEOPLE.filter(function (q) { return first.assignees.indexOf(q) >= 0; });
+        first.note = (first.note ? first.note + "\n" : "") + extraNotes.join("\n");
+        items = [first];
+      }
+      if (!items.length) throw { error: "empty" };
+
+      var base = maxOrder(), baseOng = maxOrderOngoing();
+      var nOne = 0, nOng = 0;
+      var chain = Promise.resolve();
+      items.forEach(function (it) {
+        var ord = it.continuous ? (baseOng + (++nOng)) : (base + (++nOne));
+        chain = chain.then(function () {
+          return createTask({
+            title: it.title, note: it.note, assignees: it.assignees, due: it.due,
+            photo: null, order: ord, done: false, continuous: it.continuous
+          });
+        });
+      });
+      return chain.then(loadTasks).then(function () {
+        setStatus("");
+        tempNotice(items.length === 1 ? "Added 1 task." : "Added " + items.length + " tasks.", 4000);
+      });
+    }).catch(function (e) {
+      console.error(e);
+      setStatus("");
+      var lp = localParse(text);
+      if (lp) {
+        var t2 = Object.assign({ photo: null, order: maxOrder() + 1, done: false }, lp);
+        tasks.push(Object.assign({ id: "tmp-" + Date.now(), createdAt: null, completedAt: null, doneLog: [] }, t2));
+        render();
+        createTask(t2).then(loadTasks).catch(function () {
+          tempNotice("Couldn’t add the task — check your connection and try again.", 6000);
+          return loadTasks();
+        });
+      } else {
+        addRaw(text);
+      }
+      if (e && e.error === "no_key") {
+        tempNotice("Claude sorting isn’t switched on yet (the Anthropic API key hasn’t been added in Supabase)" + (lp ? " — sorted with basic rules instead." : " — added as typed."), 8000);
+      }
+    });
+  }
+
+  function completeTask(id, checkBtn) {
+    if (checkBtn) checkBtn.classList.add("on");
+    setTimeout(function () {
+      patchTask(id, { done: true, completedAt: new Date().toISOString() });
+      if (expandedId === id) expandedId = null;
+      render();
+    }, 220);
+  }
+
+  function restoreTask(id) {
+    patchTask(id, { done: false, completedAt: null, order: maxOrder() + 1 });
+    render();
+  }
+
+  function logContinuous(id, checkBtn) {
+    var t = null;
+    for (var i = 0; i < tasks.length; i++) if (tasks[i].id === id) t = tasks[i];
+    if (!t) return;
+    var log = (t.doneLog || []).slice();
+    log.push(new Date().toISOString());
+    if (log.length > 200) log = log.slice(-200);
+    if (checkBtn) {
+      checkBtn.classList.add("on");
+      setTimeout(function () { checkBtn.classList.remove("on"); }, 900);
+    }
+    patchTask(id, { doneLog: log });
+    tempNotice("Logged — " + (t.title || "task") + " done today.", 3500);
+    setTimeout(function () { scheduleRender(); }, 950);
+  }
+
+  // ---------- photos ----------
+
+  function compressImage(fileBlob) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(fileBlob);
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var MAX = 1600;
+          var w = img.naturalWidth, h = img.naturalHeight;
+          if (!w || !h) throw new Error("no size");
+          var scale = Math.min(1, MAX / Math.max(w, h));
+          var c = document.createElement("canvas");
+          c.width = Math.round(w * scale); c.height = Math.round(h * scale);
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          c.toBlob(function (b) {
+            URL.revokeObjectURL(url);
+            if (b) resolve(b); else reject(new Error("encode failed"));
+          }, "image/jpeg", 0.82);
+        } catch (e) { URL.revokeObjectURL(url); reject(e); }
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("decode failed")); };
+      img.src = url;
+    });
+  }
+
+  function uploadPhoto(t, fileBlob, btn, status) {
+    btn.disabled = true;
+    status.textContent = "Uploading…";
+    var name = t.id + "-" + Date.now() + ".jpg";
+    compressImage(fileBlob)
+      .catch(function () { return fileBlob; })
+      .then(function (blob) {
+        return fetch(SUPA + "/storage/v1/object/personal-photos/" + name, {
+          method: "POST",
+          headers: headers({ "Content-Type": blob.type || "image/jpeg" }),
+          body: blob
+        });
+      })
+      .then(function (r) {
+        if (!r.ok) throw new Error("upload " + r.status);
+        var old = t.photo;
+        patchTask(t.id, { photo: name });
+        if (old) deletePhotoFile(old);
+        status.textContent = "";
+        btn.disabled = false;
+        render();
+      })
+      .catch(function (e) {
+        console.error(e);
+        btn.disabled = false;
+        status.textContent = "Upload failed — try again.";
+      });
+  }
+
+  function deletePhotoFile(name) {
+    if (!name) return;
+    fetch(SUPA + "/storage/v1/object/personal-photos/" + name, {
+      method: "DELETE", headers: headers()
+    }).catch(function () {});
+  }
+
+  function openLightbox(photoName) {
+    var lb = el("div", "lightbox");
+    var img = el("img");
+    img.src = photoUrl(photoName);
+    img.alt = "Task photo";
+    lb.appendChild(img);
+    lb.addEventListener("click", function () { lb.remove(); });
+    document.body.appendChild(lb);
+  }
+
+  // ---------- drag to reorder ----------
+
+  function startDrag(e, card) {
+    e.preventDefault();
+    var handle = e.currentTarget;
+    try { handle.setPointerCapture(e.pointerId); } catch (err) {}
+
+    var list = card.parentElement;
+    var items = [].slice.call(list.children);
+    var fromIdx = items.indexOf(card);
+    if (fromIdx < 0) return;
+
+    var rects = items.map(function (n) { return n.getBoundingClientRect(); });
+    var gap = items.length > 1 ? Math.max(0, rects[1].top - rects[0].bottom) : 10;
+    var myH = rects[fromIdx].height + gap;
+    var startY = e.clientY;
+    var toIdx = fromIdx;
+
+    card.classList.add("dragging");
+    items.forEach(function (n) { if (n !== card) n.classList.add("shifting"); });
+
+    function onMove(ev) {
+      var dy = ev.clientY - startY;
+      card.style.transform = "translateY(" + dy + "px)";
+      var center = rects[fromIdx].top + rects[fromIdx].height / 2 + dy;
+
+      var idx = 0;
+      for (var i = 0; i < items.length; i++) {
+        if (i === fromIdx) continue;
+        var mid = rects[i].top + rects[i].height / 2;
+        if (center > mid) idx++;
+      }
+      toIdx = idx;
+
+      items.forEach(function (n, i) {
+        if (n === card) return;
+        var shift = 0;
+        if (i < fromIdx && i >= toIdx) shift = myH;
+        if (i > fromIdx && i <= toIdx) shift = -myH;
+        n.style.transform = shift ? "translateY(" + shift + "px)" : "";
+      });
+    }
+
+    function onUp() {
+      handle.removeEventListener("pointermove", onMove);
+      handle.removeEventListener("pointerup", onUp);
+      handle.removeEventListener("pointercancel", onUp);
+      card.classList.remove("dragging");
+      items.forEach(function (n) { n.classList.remove("shifting"); n.style.transform = ""; });
+      card.style.transform = "";
+      if (toIdx !== fromIdx) applyReorder(fromIdx, toIdx, list === listOngoing);
+    }
+
+    handle.addEventListener("pointermove", onMove);
+    handle.addEventListener("pointerup", onUp);
+    handle.addEventListener("pointercancel", onUp);
+  }
+
+  function applyReorder(fromIdx, toIdx, isOngoing) {
+    var act = isOngoing ? ongoingTasks() : activeTasks();
+    var moved = act[fromIdx];
+    if (!moved) return;
+    act.splice(fromIdx, 1);
+    act.splice(toIdx, 0, moved);
+
+    var prev = act[toIdx - 1], next = act[toIdx + 1];
+    var newOrder;
+    if (!prev && !next) newOrder = 1;
+    else if (!prev) newOrder = (next.order || 0) - 1;
+    else if (!next) newOrder = (prev.order || 0) + 1;
+    else newOrder = ((prev.order || 0) + (next.order || 0)) / 2;
+
+    if (prev && next && Math.abs((next.order || 0) - (prev.order || 0)) < 1e-7) {
+      act.forEach(function (t, i) { patchTask(t.id, { order: i + 1 }); });
+    } else {
+      patchTask(moved.id, { order: newOrder });
+    }
+    render();
+  }
+
+  // ---------- dictation ----------
+
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var sheetEl = null, recog = null;
+
+  function closeSheet() {
+    if (recog) { try { recog.stop(); } catch (e) {} recog = null; }
+    if (sheetEl) { sheetEl.remove(); sheetEl = null; }
+  }
+
+  function openSheet(children) {
+    closeSheet();
+    var scrim = el("div", "scrim");
+    var sheet = el("div", "sheet");
+    children.forEach(function (c) { sheet.appendChild(c); });
+    scrim.appendChild(sheet);
+    scrim.addEventListener("click", function (e) { if (e.target === scrim) closeSheet(); });
+    document.body.appendChild(scrim);
+    sheetEl = scrim;
+    return sheet;
+  }
+
+  function sheetActions(pairs) {
+    var row = el("div", "sheet-actions");
+    pairs.forEach(function (p) {
+      var b = el("button", "btn" + (p.primary ? " primary" : " quiet"), p.label);
+      b.type = "button";
+      b.addEventListener("click", p.onClick);
+      row.appendChild(b);
+    });
+    return row;
+  }
+
+  function startDictation() {
+    if (SR) startListening();
+    else openTypeFallback("");
+  }
+
+  function startListening() {
+    var title = el("h2");
+    title.innerHTML = '<span class="pulse"></span>Dictating…';
+    var hint = el("p", "hint", "Describe the task — e.g. “Book the car service for next Friday.” Claude fills in the date and details as one task.");
+    var box = el("div", "transcript");
+    var finalText = "";
+
+    var actions = sheetActions([
+      { label: "Cancel", onClick: closeSheet },
+      { label: "Done", primary: true, onClick: function () {
+          var text = finalText.trim();
+          closeSheet();
+          if (text) smartAdd(text, true);
+        } }
+    ]);
+    openSheet([title, hint, box, actions]);
+
+    recog = new SR();
+    recog.lang = "en-GB";
+    recog.continuous = true;
+    recog.interimResults = true;
+    recog.onresult = function (ev) {
+      var interim = "";
+      finalText = "";
+      for (var i = 0; i < ev.results.length; i++) {
+        var r = ev.results[i];
+        if (r.isFinal) finalText += r[0].transcript + " ";
+        else interim += r[0].transcript;
+      }
+      box.textContent = finalText;
+      if (interim) box.appendChild(el("span", "interim", interim));
+    };
+    recog.onerror = function (ev) {
+      recog = null;
+      if (ev.error === "not-allowed" || ev.error === "service-not-allowed" || ev.error === "audio-capture") {
+        openTypeFallback(finalText.trim());
+      } else {
+        hint.textContent = "Didn’t catch that — try again, or tap Cancel and type it instead.";
+      }
+    };
+    try { recog.start(); } catch (e) { recog = null; openTypeFallback(""); }
+  }
+
+  function openTypeFallback(prefill) {
+    var title = el("h2", null, "Dictate your tasks");
+    var hint = el("p", "hint", "Tap the box, then use the mic key on your keyboard to dictate. Claude fills in the date and details as one task.");
+    var box = el("textarea", "dictate-box");
+    box.id = "dictate-box";
+    box.value = prefill || "";
+    box.placeholder = "e.g. Book the car service for next Friday…";
+    var actions = sheetActions([
+      { label: "Cancel", onClick: closeSheet },
+      { label: "Add tasks", primary: true, onClick: function () {
+          var text = box.value.trim();
+          closeSheet();
+          if (text) smartAdd(text, true);
+        } }
+    ]);
+    openSheet([title, hint, box, actions]);
+    setTimeout(function () { box.focus(); }, 60);
+  }
+
+  // ---------- gate & boot ----------
+
+  function verifyCode(code) {
+    return fetch(SUPA + "/rest/v1/rpc/personal_code_ok", {
+      method: "POST",
+      headers: {
+        "apikey": KEY, "Authorization": "Bearer " + KEY,
+        "Content-Type": "application/json", "x-hks-code": code
+      },
+      body: "{}"
+    }).then(function (r) { return r.json(); })
+      .then(function (v) { return v === true; })
+      .catch(function () { return null; }); // network trouble, not a wrong code
+  }
+
+  function showGate(msg) {
+    $("gate").hidden = false;
+    $("gate-err").textContent = msg || "";
+    setTimeout(function () { $("gate-input").focus(); }, 60);
+  }
+
+  function boot() {
+    $("gate").hidden = true;
+    loadTasks();
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(function () {
+      if (!document.hidden) loadTasks();
+    }, 15000);
+  }
+
+  $("gate-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var code = $("gate-input").value.trim().toLowerCase();
+    if (!code) return;
+    $("gate-err").textContent = "Checking…";
+    verifyCode(code).then(function (ok) {
+      if (ok === true) {
+        CODE = code;
+        try { localStorage.setItem("hksCode", code); } catch (err) {}
+        boot();
+      } else if (ok === false) {
+        $("gate-err").textContent = "That’s not the code.";
+      } else {
+        $("gate-err").textContent = "Can’t reach the server — check your signal and try again.";
+      }
+    });
+  });
+
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden && CODE) loadTasks();
+  });
+
+  $("tab-todo").addEventListener("click", function () { view = "todo"; render(); });
+  $("tab-done").addEventListener("click", function () { view = "done"; render(); });
+
+  function addFromInput() {
+    var input = $("add-input");
+    var v = input.value.trim();
+    if (!v) return;
+    smartAdd(v, false);
+    input.value = "";
+    input.focus();
+  }
+  $("addbar").addEventListener("submit", function (e) {
+    e.preventDefault();
+    addFromInput();
+  });
+  $("add-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); addFromInput(); }
+  });
+
+  $("mic-btn").addEventListener("click", startDictation);
+
+  render();
+  if (!CODE) {
+    showGate();
+  } else {
+    verifyCode(CODE).then(function (ok) {
+      if (ok === false) { CODE = null; try { localStorage.removeItem("hksCode"); } catch (e) {} showGate(); }
+      else boot(); // true, or unreachable — try anyway
+    });
+  }
+})();
+</script>
+</body>
+</html>
