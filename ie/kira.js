@@ -1,0 +1,80 @@
+// Kira Talent practice bank for the IE Online Assessment.
+// Format reported by IE and by applicants: 3 live questions (2 video, 1 written), ~20-30 min total,
+// short preparation period, roughly 60-90 s per video answer, ~5 min for the written answer.
+// Unlimited practice questions, one attempt per official question. Complete within a week of the invitation.
+window.KIRA_BANK = {
+  video: [
+    // IE's own reflection prompts (from the IE University admissions page) come first.
+    { c: "Motivation", q: "Why do you want to study at IE?", ie: true },
+    { c: "Motivation", q: "Why have you chosen your programme?", ie: true },
+    { c: "Motivation", q: "How will you use your studies at IE later in life?", ie: true },
+    { c: "Motivation", q: "What have you done outside school or work to prepare for this programme?", ie: true },
+    { c: "Motivation", q: "What are the key challenges in your chosen field today?", ie: true },
+    { c: "Motivation", q: "What personal challenge have you faced recently, and how did you respond?", ie: true },
+    { c: "Motivation", q: "What do you hope to contribute to the IE community?" },
+    { c: "Motivation", q: "Where do you see yourself five years after graduating?" },
+    { c: "Personal", q: "Tell us about yourself." },
+    { c: "Personal", q: "What are your hobbies, and what do they say about you?" },
+    { c: "Personal", q: "Who is your role model, and why?" },
+    { c: "Personal", q: "What is a book, film or podcast that changed how you think?" },
+    { c: "Personal", q: "What would you do with a 25th hour in the day?" },
+    { c: "Personal", q: "What is something you taught yourself, and how did you go about it?" },
+    { c: "Personal", q: "Describe yourself in three words and justify one of them." },
+    { c: "Leadership and teamwork", q: "How do you define leadership?" },
+    { c: "Leadership and teamwork", q: "Tell us about a time you led a team through a difficult project." },
+    { c: "Leadership and teamwork", q: "Describe a time you had to persuade someone who disagreed with you." },
+    { c: "Leadership and teamwork", q: "Tell us about a time you worked with someone very different from you." },
+    { c: "Leadership and teamwork", q: "What role do you usually take in a team, and why?" },
+    { c: "Leadership and teamwork", q: "Describe a conflict in a group and how you helped resolve it." },
+    { c: "Behaviour under pressure", q: "Tell us about a time you failed. What did you learn?" },
+    { c: "Behaviour under pressure", q: "How do you handle a very tight deadline?" },
+    { c: "Behaviour under pressure", q: "Describe a decision you made quickly with limited information." },
+    { c: "Behaviour under pressure", q: "Tell us about a time you had to adapt to a major change." },
+    { c: "Behaviour under pressure", q: "What do you do when you feel overwhelmed?" },
+    { c: "Behaviour under pressure", q: "Tell us about feedback that was hard to hear and what you did with it." },
+    { c: "Opinion and ethics", q: "Should companies prioritise social responsibility over profit?" },
+    { c: "Opinion and ethics", q: "What is the biggest challenge facing the global economy today?" },
+    { c: "Opinion and ethics", q: "Is it more important to be liked or respected?" },
+    { c: "Opinion and ethics", q: "How should a company handle a mistake that affects its customers?" },
+    { c: "Opinion and ethics", q: "What is your view on the impact of AI on the future of work?" },
+    { c: "Opinion and ethics", q: "Is it ever acceptable to lie in a professional context?" },
+    { c: "Opinion and ethics", q: "Should universities teach more online? Why or why not?" },
+    { c: "Creative", q: "Explain social media to someone who has never used the internet." },
+    { c: "Creative", q: "If you could solve one global problem, which would it be and how would you start?" },
+    { c: "Creative", q: "If you were an animal, which one would you be and why?" },
+    { c: "Creative", q: "You have one day and no budget to organise an event for 100 people. What do you do?" },
+    { c: "Creative", q: "Tell us a surprising fact about yourself." },
+    { c: "Creative", q: "If you could have dinner with anyone, living or dead, who would it be and what would you ask?" },
+    { c: "Creative", q: "What would you do if you won the lottery tomorrow?" },
+    { c: "Creative", q: "Teach us something in 60 seconds." }
+  ],
+  written: [
+    { c: "Motivation", q: "Why IE, and why now? Explain how this programme fits your plans." },
+    { c: "Motivation", q: "Describe an achievement you are proud of and what it shows about you." },
+    { c: "Reflection", q: "Describe a situation where you changed your mind about something important. What convinced you?" },
+    { c: "Reflection", q: "What is one thing you would like to improve about yourself during your time at IE?" },
+    { c: "Opinion", q: "Should a university prepare students for a specific job or for a lifetime of change? Argue your view." },
+    { c: "Opinion", q: "Many people say failure is the best teacher. Do you agree? Use an example." },
+    { c: "Opinion", q: "Is a diverse team always a better team? Explain." },
+    { c: "Creative", q: "Pitch a product or service that would make student life better, in one paragraph." },
+    { c: "Creative", q: "Describe your ideal working day ten years from now." },
+    { c: "Reflection", q: "What have you learned from working or studying with people from other cultures?" }
+  ],
+  rubric: [
+    { k: "structure", label: "Structure", hint: "Opened with a direct answer, gave 2-3 reasons or one clear story, closed with a one-line takeaway." },
+    { k: "specific", label: "Specificity", hint: "Named real people, places, numbers, decisions. No generic claims a stranger could make." },
+    { k: "delivery", label: "Delivery", hint: "Looked at the camera, steady pace, few fillers, finished inside the time with no rush at the end." },
+    { k: "fit", label: "Fit with IE", hint: "Answer connects to the programme, to IE's entrepreneurial and international culture, or to your goals." }
+  ],
+  stories: [
+    { k: "why_ie", label: "Why IE and why this programme", hint: "Two concrete reasons tied to this programme (a course, a lab, a method, the location) plus one personal link." },
+    { k: "goals", label: "Short- and long-term goals", hint: "One sentence each. Make the programme the bridge between them." },
+    { k: "leadership", label: "Leadership story", hint: "STAR: situation, task, action, result. Quantify the result." },
+    { k: "failure", label: "Failure or setback story", hint: "What happened, what you did next, what changed in how you work." },
+    { k: "team", label: "Teamwork or conflict story", hint: "A real disagreement and the specific thing you said or did." },
+    { k: "challenge", label: "Recent personal challenge", hint: "IE asks this directly. Keep it honest and finish on how you responded." },
+    { k: "outside", label: "What you did outside school or work", hint: "Projects, jobs, volunteering, self-study. One or two with detail." },
+    { k: "field", label: "Challenges in your field", hint: "Two current issues you can speak about for 30 seconds each, with a source or example." },
+    { k: "about_me", label: "Tell us about yourself (60-second version)", hint: "Present, past, future: who you are now, what shaped you, where you are going." }
+  ]
+};

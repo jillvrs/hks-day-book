@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d4ed8">
+<meta name="apple-mobile-web-app-title" content="IE Sprint">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='14' y='14' width='72' height='72' rx='14' fill='%231d4ed8' transform='rotate(45 50 50)'/%3E%3C/svg%3E">
+<style>html,body{margin:0}body{font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<title>IE Admissions Sprint</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: a sticky top bar with six sections; one centred column (max 1080px); test items use a two-pane split (information left, statement right) that stacks on phones. */
+:root {
+  --bg: #f3f5f8; --surface: #ffffff; --surface-2: #e9edf3; --ink: #15202b; --muted: #5d6b7a; --line: #d3dae3;
+  --accent: #1d4ed8; --accent-soft: #e3eaff; --accent-ink: #ffffff;
+  --good: #1a7f4b; --warn: #b7791f; --bad: #c23b3b; --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+  --display: "Sora", "Segoe UI", system-ui, sans-serif; --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #10151c; --surface: #18202a; --surface-2: #222c38; --ink: #e8edf3; --muted: #9aa8b8; --line: #2f3b49; --accent: #6c9aff; --accent-soft: #1f2d4d; --accent-ink: #0c1424; --good: #4cc38a; --warn: #e0a84a; --bad: #ef6b6b; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #10151c; --surface: #18202a; --surface-2: #222c38; --ink: #e8edf3; --muted: #9aa8b8; --line: #2f3b49; --accent: #6c9aff; --accent-soft: #1f2d4d; --accent-ink: #0c1424; --good: #4cc38a; --warn: #e0a84a; --bad: #ef6b6b; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.2; margin: 0 0 .4em; }
+h1 { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); } h2 { font-size: 1.35rem; } h3 { font-size: 1.1rem; }
+p { margin: 0 0 .8em; } .lede { font-size: 1.05rem; max-width: 68ch; } .muted { color: var(--muted); } .small { font-size: .9rem; }
+a { color: var(--accent); }
+button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: .5em .9em; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+button.primary.big { font-size: 1.1rem; padding: .7em 1.4em; }
+button.ghost { background: transparent; } button.small { padding: .3em .6em; font-size: .85rem; }
+button:disabled { opacity: .45; cursor: default; }
+input, select, textarea { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: .4em .6em; }
+input[type=number] { width: 5.5em; } textarea { width: 100%; }
+kbd { font-family: var(--mono); font-size: .75rem; background: var(--surface-2); border-radius: 4px; padding: 0 .4em; margin-right: .5em; color: var(--muted); }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar .in { max-width: 1080px; margin: 0 auto; padding: .6rem 16px; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 700; letter-spacing: .01em; display: flex; align-items: center; gap: .5rem; }
+.brand i { display: inline-block; width: 12px; height: 12px; background: var(--accent); border-radius: 3px; transform: rotate(45deg); }
+.nav { display: flex; gap: .25rem; flex-wrap: wrap; } .nav button { border: 0; background: transparent; padding: .4em .7em; color: var(--muted); font-weight: 500; }
+.nav button.on { background: var(--accent-soft); color: var(--accent); }
+main { max-width: 1080px; margin: 0 auto; padding-block: 1.2rem 3rem; padding-inline: 16px; }
+.page > * + * { margin-top: 1rem; } .center { text-align: center; }
+.hero .progressbar { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; margin-top: .6rem; } .hero .fill { height: 100%; background: var(--accent); }
+.eyebrow { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: .4rem; }
+.row { display: flex; align-items: center; } .gap { gap: .6rem; } .wrap { flex-wrap: wrap; } .between { justify-content: space-between; }
+.field { display: inline-flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--muted); }
+.chip { border-radius: 999px; padding: .3em .8em; font-size: .9rem; } .chip.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); } .chip.static { cursor: default; background: var(--surface-2); border: 0; }
+.chip.run { margin-left: auto; white-space: nowrap; }
+.trackpick { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+/* plan */
+.day { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1rem; }
+.day-head { display: flex; gap: 1rem; align-items: flex-start; } .day-head h2 { margin: 0; } .day-head p { margin: 0; }
+.daynum { font-family: var(--display); font-weight: 700; color: var(--accent); white-space: nowrap; padding-top: .2rem; } .daycount { margin-left: auto; font-family: var(--mono); color: var(--muted); }
+.block { margin-top: .9rem; }
+.task { display: flex; gap: .7rem; align-items: flex-start; padding: .45rem 0; border-top: 1px solid var(--line); cursor: pointer; }
+.task input { margin-top: .3rem; } .task.done .task-t { color: var(--muted); text-decoration: line-through; } .task-t { flex: 1; min-width: 0; }
+/* drills */
+.modgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: .8rem; }
+.mod { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1rem; display: flex; flex-direction: column; gap: .6rem; } .mod h3 { margin: 0; } .mod p { margin: 0; }
+/* session */
+.session { display: flex; flex-direction: column; gap: .8rem; }
+.sess-head { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: .6rem; }
+.sess-prog { font-family: var(--mono); color: var(--muted); } .clock { font-family: var(--mono); font-size: 1.4rem; font-weight: 600; margin-left: auto; font-variant-numeric: tabular-nums; } .clock.low { color: var(--bad); } .clock.big { font-size: 3rem; margin: 0; }
+.pills { display: flex; gap: 3px; flex-wrap: wrap; } .pill { width: 10px; height: 10px; border-radius: 2px; background: var(--surface-2); cursor: pointer; } .pill.done { background: var(--accent); opacity: .6; } .pill.cur { outline: 2px solid var(--accent); outline-offset: 1px; }
+.sess-foot { display: flex; justify-content: space-between; gap: .6rem; }
+.item-statement { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+@media (max-width: 760px) { .item-statement { grid-template-columns: 1fr; } }
+.scenario { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: .8rem; min-width: 0; }
+.scenario-title { font-family: var(--display); font-weight: 600; margin-bottom: .4rem; }
+.tabs { display: flex; gap: .3rem; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: .6rem; } .tab { border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; color: var(--muted); padding: .3em .6em; } .tab.on { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+.passage { font-size: 1rem; max-width: 65ch; margin: 0; }
+.tablewrap { overflow-x: auto; } table.data { border-collapse: collapse; width: 100%; font-size: .95rem; } table.data th, table.data td { border-bottom: 1px solid var(--line); padding: .35em .6em; text-align: left; white-space: nowrap; } table.data td.num { text-align: right; font-variant-numeric: tabular-nums; } table.data thead th { color: var(--muted); font-weight: 600; font-size: .85rem; }
+.statement { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1rem; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 64px); }
+.stmt { font-size: 1.15rem; font-weight: 500; margin-bottom: 1rem; } .stmt.small { font-size: 1rem; margin-bottom: .3rem; }
+.answers { display: flex; flex-direction: column; gap: .5rem; } .ans { text-align: left; padding: .7em 1em; font-size: 1rem; } .ans.picked, .opt.picked { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.hint { color: var(--muted); font-size: .8rem; margin: .8rem 0 0; }
+.item-visual { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1rem; display: flex; flex-direction: column; gap: .8rem; align-items: flex-start; }
+.gridwrap { width: 100%; } .grid-svg { width: 100%; height: auto; display: block; } .gridwrap.small .grid-svg { max-width: 180px !important; }
+.options { display: flex; gap: .6rem; flex-wrap: wrap; } .opt { display: flex; align-items: center; gap: .3rem; padding: .5em .7em; }
+.fig { display: inline-grid; grid-template-columns: repeat(3, 1.5em); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; font-family: var(--mono); font-weight: 600; font-size: 1rem; background: var(--surface-2); margin: 2px; }
+.fig span { display: block; text-align: center; line-height: 1.5em; background: var(--surface); outline: 1px solid var(--line); }
+.sets { display: flex; gap: 1.5rem; flex-wrap: wrap; } .setlabel { font-weight: 600; margin-bottom: .3rem; } .figs { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; } .figs.small b { margin-right: .6rem; }
+.unassigned { display: flex; gap: 1rem; flex-wrap: wrap; } .ufig { display: flex; flex-direction: column; align-items: center; gap: .3rem; } .toggle { display: flex; gap: .3rem; } .tbtn { width: 2.4em; } .tbtn.picked { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.warn { color: var(--bad); margin: 0; }
+.memstage { width: 100%; display: flex; flex-direction: column; gap: .8rem; align-items: center; min-height: 200px; justify-content: center; }
+.membox { width: 160px; height: 160px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--line); border-radius: 12px; }
+.memgrid { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; } .memopt { position: relative; padding: .5em; } .memopt.done { background: var(--accent-soft); border-color: var(--accent); } .ord { position: absolute; top: -8px; right: -8px; background: var(--accent); color: var(--accent-ink); border-radius: 999px; width: 22px; height: 22px; font-size: .8rem; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+.equation { display: flex; gap: .5rem; align-items: center; font-family: var(--mono); font-size: 1.8rem; flex-wrap: wrap; } .equation.small { font-size: 1.1rem; } .blank { width: 2em; height: 2em; font-family: var(--mono); font-size: 1.4rem; padding: 0; } .blank.active { border-color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); }
+.numpad { display: grid; grid-template-columns: repeat(5, 3em); gap: .4rem; } .key { height: 3em; font-family: var(--mono); font-size: 1.1rem; padding: 0; }
+.series { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; } .cell { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); display: flex; align-items: center; justify-content: center; } .cell.q { width: 92px; height: 92px; font-family: var(--display); font-size: 2rem; color: var(--accent); border-style: dashed; } .cell.ans { outline: 2px solid var(--good); }
+.options.abs .opt { flex-direction: column; align-items: flex-start; }
+/* results */
+.scorecard { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .6rem; } .kpi { border: 1px solid var(--line); border-radius: 10px; padding: .7rem .8rem; background: var(--surface); } .kpi-v { font-family: var(--mono); font-size: 1.5rem; font-weight: 600; font-variant-numeric: tabular-nums; } .kpi-l { color: var(--muted); font-size: .8rem; }
+.coach { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: .7rem 1rem; border-radius: 0 10px 10px 0; } .coach p:last-child { margin: 0; }
+.review { display: flex; flex-direction: column; gap: .6rem; } .rev { border: 1px solid var(--line); border-radius: 10px; padding: .7rem .9rem; background: var(--surface); border-left-width: 4px; } .rev.ok { border-left-color: var(--good); } .rev.bad { border-left-color: var(--bad); } .rev.skip { border-left-color: var(--line); }
+.rev-head { display: flex; gap: .6rem; align-items: center; margin-bottom: .3rem; } .badge { font-size: .75rem; letter-spacing: .05em; text-transform: uppercase; font-weight: 600; } .rev.ok .badge { color: var(--good); } .rev.bad .badge { color: var(--bad); } .rev p { margin: .2rem 0; } .expl { color: var(--muted); }
+.results > * + * { margin-top: 1rem; }
+.sections li { margin-bottom: .3rem; } .mockrow { border-top: 1px solid var(--line); padding: .6rem 0; } .mockrow .row { margin-top: .3rem; }
+/* kira */
+.subnav { display: flex; gap: .4rem; flex-wrap: wrap; }
+.kstage { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1.2rem; min-height: 120px; display: flex; flex-direction: column; gap: .6rem; align-items: center; text-align: center; margin-top: 1rem; }
+.kstage:empty { display: none; } .kq h2 { max-width: 30ch; margin: 0 auto; } .kphase { font-size: .9rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); } .kphase.live { color: var(--bad); font-weight: 700; }
+.written { text-align: left; max-width: 65ch; }
+.rub { display: flex; justify-content: space-between; gap: 1rem; width: 100%; text-align: left; border-top: 1px solid var(--line); padding: .5rem 0; flex-wrap: wrap; } .stars { display: flex; gap: .2rem; } .star { width: 2.2em; } .star.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.story { margin-top: 1rem; } .story label { display: block; }
+/* progress */
+.charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: .8rem; } .chartcard { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: .8rem; } .chart { width: 100%; height: auto; display: block; }
+.legend { display: flex; gap: 1rem; font-size: .8rem; color: var(--muted); flex-wrap: wrap; } .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: .3rem; vertical-align: middle; } .legend i.dash { border-top: 2px dashed var(--good); height: 0; }
+table.attempts td, table.attempts th { font-size: .88rem; }
+/* guide */
+.guide h2 { margin-top: 1.6rem; } .guide table.data th, .guide table.data td { white-space: normal; } .guide ul, .guide ol { padding-left: 1.3rem; } .guide li { margin-bottom: .3rem; } .guide .card { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1rem; }
+/* official-format pieces */
+.tabs.icons { justify-content: center; gap: .6rem; border-bottom: 0; } .tabs.icons .tab { display: flex; flex-direction: column; align-items: center; gap: .15rem; font-size: .72rem; border: 1px solid var(--line); border-radius: 999px; padding: .35rem .5rem; min-width: 64px; color: var(--muted); } .tabs.icons .tab.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.sheet-title { text-align: center; font-weight: 700; letter-spacing: .08em; font-size: .8rem; color: var(--muted); margin: .4rem 0 .5rem; } .sheet-note { font-weight: 600; font-size: .9rem; margin: .6rem 0 0; }
+.chartbox { max-width: 420px; margin: 0 auto; } .chart-svg { width: 100%; height: auto; display: block; } .chart-svg.donut { max-width: 260px; margin: 0 auto; }
+table.data tr.total th, table.data tr.total td { font-weight: 700; }
+.ixrow { display: flex; gap: .4rem; flex-wrap: wrap; justify-content: center; width: 100%; } .ixobj { position: relative; padding: .35rem; border-radius: 8px; } .ixobj.picked { background: var(--accent-soft); border-color: var(--accent); } .ixobj.static { display: inline-block; border: 1px solid var(--line); } .ixobj.static.ans { outline: 2px solid var(--good); } .ixnum { position: absolute; left: 4px; top: 2px; font-size: .65rem; color: var(--muted); font-family: var(--mono); } .ixrow.small .ixobj svg { width: 34px; height: 34px; }
+.memgrid.eight { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; max-width: 340px; }
+.mathstem { font-family: var(--mono); font-size: 1.15rem; } .mathopts { display: flex; flex-direction: column; gap: .5rem; width: 100%; max-width: 520px; } .mathopts .ans { font-family: var(--mono); } .mathopts .ans.idk { font-family: var(--body); color: var(--muted); }
+/* gate */
+.gate { max-width: 380px; margin: 3rem auto; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 1.6rem; display: flex; flex-direction: column; gap: .8rem; align-items: stretch; text-align: left; }
+.gate .brand { justify-content: center; } .gate h1 { font-size: 1.3rem; margin: .4rem 0 0; } .gate input { font-size: 1.1rem; padding: .6em .8em; } .gate-err { color: var(--bad); min-height: 1.4em; margin: 0; }
+.lock { margin-left: auto; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="topbar"><div class="in">
+  <div class="brand"><i></i> IE Admissions Sprint</div>
+  <nav class="nav" aria-label="Sections">
+    <button data-v="plan" class="on">Plan</button><button data-v="drills">Drills</button><button data-v="mock">Mock</button><button data-v="kira">Kira</button><button data-v="progress">Progress</button><button data-v="guide">Guide</button>
+  </nav>
+</div></div>
+<main id="view"><div class="page"><p class="muted">Loading…</p></div></main>
+
+<template id="guide-content">
+  <h1>Guide: what the tests look like and how to beat them</h1>
+  <p class="lede">Everything below comes from IE's own admissions pages plus what applicants and Aon-format prep sites report. IE does not publish the exact item counts for every module, so treat the counts as the best available estimate and the techniques as the point.</p>
+
+  <h2>1. The formats, from IE's own examples</h2>
+  <p>IE's admissions-test page links a "Practical example" video for each section. Those videos are Aon's official demos, and Aon publishes practice-task PDFs for the same tests. Every mock in this site follows those sources item for item.</p>
+  <div class="tablewrap"><table class="data">
+    <thead><tr><th>Section</th><th>Bachelor: IE University Admissions Test</th><th>Master: ieGAT</th><th>Exactly what you see</th></tr></thead>
+    <tbody>
+      <tr><td>Numerical reasoning</td><td>37 tasks, 12 min</td><td>Yes (IE's example)</td><td>One company. Five data sheets on icon tabs: a costs table in thousands, a donut of revenue shares with the total underneath, a lead-generation table, a stacked bar chart of employees "in thousands", and a horizontal grouped bar chart of forecasts. Each statement relates to one sheet: True, False or Cannot say. Pen, paper and a calculator are allowed.</td></tr>
+      <tr><td>Verbal reasoning</td><td>49 tasks, 12 min</td><td>Yes (IE's example)</td><td>One company. Six text tabs that stay on screen (About the company, Products, Values, Strategy, Locations, Marketing), each with two or three labelled paragraphs. Each statement relates to one tab: True, False or Cannot say.</td></tr>
+      <tr><td>Deductive logical thinking</td><td>6 min, as many as you can</td><td>Commonly reported</td><td>Aon gapChallenge: a 4×4 or 5×5 grid of coloured symbols (circle, star, cross, triangle, square); each symbol once per row and column; pick the symbol for the ? cell from the row below. It gets harder as you go.</td></tr>
+      <tr><td>Learning efficiency</td><td>10 tasks, 5 min</td><td>Not shown</td><td>Aon short-term memory test: simple objects appear one after another in the middle of the screen; then eight objects are shown and you select the ones you saw, in order.</td></tr>
+      <tr><td>Mathematics assessment</td><td>12 questions, 15 min (BBA, BIE, PPLE); 20 questions, 60 min (maths, science, data programmes)</td><td>No</td><td>Multiple choice with four options plus "I don't know the answer", which neither adds nor deducts. The 15-minute sample covers expanding and simplifying, radical and rational equations, linear and quadratic inequalities, limits, derivatives and definite integrals. The 60-minute version adds complex numbers, matrices, vectors, planes, trigonometry, probability and the normal distribution.</td></tr>
+      <tr><td>Inductive reasoning</td><td>Not listed</td><td>Yes (IE's example)</td><td>Aon scales ix: nine objects in a row, eight follow a rule (rotation, repeating counts, alternating shading, number of sides, containment), pick the one that does not. 20 tasks in 5 minutes, rising difficulty.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Before each scored section the real test gives untimed instructions and example tasks you can repeat as often as you like. Use them to settle, not to rush.</li>
+    <li>One attempt only. English (Spanish for the ieGAT). Machine-proctored online: laptop with camera and microphone, not a phone or tablet; stay in view the whole time; do not switch windows.</li>
+    <li>IE describes scoring as correct answers, time per question and penalties for wrong answers, weighted by programme. There is no published pass mark and you do not receive a score.</li>
+  </ul>
+
+  <h2>Difficulty setting</h2>
+  <div class="card"><p>By default every module runs about a quarter harder than the official practice tasks, with the real time limits: numerical margins of 1 to 3 points instead of 2 to 6 and almost half of the statements needing two steps; verbal sets that lead with the inference statements; deductive grids that start three levels in and reach 5×5 sooner; memory sequences of four to seven objects shown for 0.8 s instead of three to six at 1 s; inductive rows that use 45° rotations and denser objects; maths with mixed-sign expansions, chain-rule derivatives, strict inequalities and no-solution radicals. Switch to "Official example level" in Drills or Mock to practise at the published level, for example on day 5.</p></div>
+
+  <h2>2. Scoring strategy</h2>
+  <div class="card">
+    <p><b>The rule that matters most:</b> a wrong answer costs you, a skipped item does not. So the target is the highest number of items you can answer at roughly 85% accuracy or better, not the highest number of items touched.</p>
+    <ol>
+      <li><b>First pass at speed.</b> Statements: decide within about 15 seconds. If a statement needs a three-step calculation, skip it and come back if time remains.</li>
+      <li><b>Never guess blind.</b> If you have no idea, leave it. If you have narrowed to two options on a 50/50, it is marginally positive to answer; on three or five options it is not.</li>
+      <li><b>Watch the clock at the halfway mark.</b> If you have reached fewer than 40% of the items at 6 minutes, speed up and skip harder statements.</li>
+      <li><b>Keep going to the last second.</b> Difficulty may adapt upwards as you get items right. Later items are not worth less.</li>
+    </ol>
+  </div>
+
+  <h2>3. True / False / Cannot say: the decision rules</h2>
+  <div class="card">
+    <ul>
+      <li><b>True</b> only if the information states it or it follows by simple arithmetic or logic from what is stated.</li>
+      <li><b>False</b> only if the information contradicts it. "The text says X, the statement says not-X."</li>
+      <li><b>Cannot say</b> when the information is silent, even if the statement is obviously true in the real world. Outside knowledge is poison.</li>
+      <li>Modal words are the trap: <i>may, must, only, all, always, never, usually, most</i>. "Staff may work remotely up to three days" does not make "staff must work remotely three days" true. It makes it false.</li>
+      <li>Scope words are the second trap: a figure given for one period or one subgroup says nothing about another period or subgroup. "Share of new orders" is not "share of revenue".</li>
+      <li>A reason is never implied: the text says a policy exists; whether it exists <i>because</i> of something is Cannot say.</li>
+      <li>Cannot say is not the safe answer. If you choose it more than about a third of the time you are probably under-reading the tabs. Re-scan once for the keyword before you commit.</li>
+    </ul>
+  </div>
+
+  <h2>4. Numerical: make it mechanical</h2>
+  <div class="card">
+    <ol>
+      <li>Read the statement first. Underline (mentally) the entity, the period and the comparison. Then open the tab that holds that entity.</li>
+      <li>Check the unit row. Thousands, millions, percentages, per-unit figures.</li>
+      <li>Pick the cheapest check: for "higher than" compare two cells; for "more than X% of total" compute X% of the total, not the share; for "increased by more than k%" compute old × (1 + k/100) and compare with new.</li>
+      <li>Mental shortcuts: 10% is a shift of the decimal point, 5% is half of that, 1% is two shifts. 15% = 10% + 5%. 12.5% is one eighth. Doubling then halving beats long multiplication.</li>
+      <li>Cannot say in numerical tests means the quantity is not in any tab: a future period, a quantity never given (profit when only revenue is shown), a breakdown not shown, or a per-period figure when only a single total is given.</li>
+      <li>Round aggressively when the margin is wide; compute exactly only when the two sides are within about 5% of each other.</li>
+    </ol>
+  </div>
+
+  <h2>5. Deductive grids</h2>
+  <div class="card">
+    <ol>
+      <li>Look at the ? cell's row and column and list the symbols already present. Whatever remains are the candidates.</li>
+      <li>One candidate left: answer. Two left: find a row or column crossing the ? cell's row or column that has one empty cell; fill it; repeat.</li>
+      <li>A symbol missing from the ? cell's row must go in one of that row's empty cells. If every other empty cell in the row is blocked for that symbol by its column, the symbol belongs in the ? cell.</li>
+      <li>Do not solve the whole grid. You only need the one cell.</li>
+    </ol>
+  </div>
+
+  <h2>6. Inductive sets</h2>
+  <div class="card">
+    <ol>
+      <li>Compare the three A figures with each other first and list everything they share: count of a symbol, letters versus digits, vowels, a position (centre, corners, a row), repeats, sums.</li>
+      <li>Then check each shared property against the three B figures. The rule is the property every A has and no B has.</li>
+      <li>Only then look at the four new figures. Test each one against the rule and assign.</li>
+      <li>Common rules: exactly three of one character; only digits; only even digits; exactly two vowels; a vowel in the centre; a row of identical characters; exactly four letters; digits in all four corners; no repeated character; same character top-left and bottom-right; digit sum above a threshold; no digits in the middle column.</li>
+    </ol>
+  </div>
+
+  <h2>7. Memory, inductive ix and maths</h2>
+  <div class="card">
+    <ul>
+      <li><b>Memory:</b> name each object silently as it appears ("apple, lock, star") and keep repeating the chain while the grid loads. The grid shows eight objects; the ones you saw are mixed with lookalikes, so check the shape, not the general impression. Three objects to start, up to six later.</li>
+      <li><b>Inductive ix:</b> read the row left to right and test the first rule that comes to mind on all nine before answering: rotation direction, a repeating count (1, 1, 2), alternating fill, number of sides, whether the inner shape is fully inside. Only one object breaks the rule.</li>
+      <li><b>Maths:</b> expand with FOIL and check the sign of the middle term; factor the difference of two squares before cancelling; square both sides for radical equations and check the result; multiply out rational equations; quadratic inequality ≤ 0 means between the roots; limits of (x² − a²)/(x − a) cancel to x + a; product-rule derivatives are quicker if you multiply out first; integrate term by term. Use "I don't know" rather than guessing: it costs nothing, a wrong answer does.</li>
+    </ul>
+  </div>
+
+  <h2>8. Kira online assessment</h2>
+  <div class="card">
+    <ul>
+      <li>Three live questions: two video responses and one written. About 20 to 30 minutes. A short preparation window per question, roughly 60 to 90 seconds per video answer and a few minutes for the written one. Unlimited practice questions on the platform, one attempt per official question. Complete it within a week of the invitation.</li>
+      <li>IE's own reflection prompts: Why IE? Why this programme? A recent personal challenge and how you responded. What you have done outside school to prepare. Key challenges in your field. How you will use your studies later in life. Prepare these as bullet points, not scripts.</li>
+      <li><b>Video answer shape (90 s):</b> direct answer in one sentence; one specific story or two reasons with concrete detail; one-line takeaway tied to IE. Stop when done.</li>
+      <li><b>Written answer shape (5 min):</b> answer in the first sentence; one reason with an example; a second reason or a counterpoint you address; a closing sentence about what it means for you at IE. 120 to 200 words; re-read once.</li>
+      <li><b>Setup:</b> laptop at eye level, light in front of you, plain background, quiet room, wired or strong Wi-Fi, business-casual clothes, water nearby, notes allowed on paper but do not read from them.</li>
+      <li>Your Kira answers may be referenced if you later get an interview. Stay consistent with your application essays.</li>
+    </ul>
+  </div>
+
+  <h2>9. Test-day checklist</h2>
+  <div class="card">
+    <ul>
+      <li>Valid photo ID that matches your application name.</li>
+      <li>Laptop on mains power, camera and microphone working, browser updated, pop-up blockers and VPN off, other apps closed.</li>
+      <li>Quiet room, desk cleared, nobody entering. Tell people at home.</li>
+      <li>Paper and pen if permitted by the proctoring rules shown at check-in; basic calculator only if the instructions allow it.</li>
+      <li>Water, a light meal an hour before, bathroom before you start. No breaks once started.</li>
+      <li>Open the test 15 minutes early. Read the on-screen rules. Use the example questions to learn the interface.</li>
+      <li>Strategy card: statements in 15 seconds or skip; never guess blind; check the clock at halfway; keep going to the last second.</li>
+    </ul>
+  </div>
+
+  <h2>Sources</h2>
+  <ul class="small">
+    <li><a href="https://static.ie.edu/marketing/web/IEU/IEU_AdmissionTest_uni.pdf" target="_blank" rel="noopener">IE University: Instructions to take the Admissions Test (PDF)</a></li>
+    <li><a href="https://static.ie.edu/marketing/web/IEU/IEU_Mathematics_Assessment_Example_BBA_BIE_PPLE%20%281%29.pdf" target="_blank" rel="noopener">IE University: Mathematics Assessment sample, BBA, BIE and PPLE (PDF)</a></li>
+    <li><a href="https://static.ie.edu/marketing/web/IEU/IEU_Math_Test_Example.pdf" target="_blank" rel="noopener">IE School of Science and Technology: Mathematics Assessment sample (PDF)</a></li>
+    <li><a href="https://www.youtube.com/watch?v=DeS7Hnyhcx8" target="_blank" rel="noopener">IE's practical example: Numerical Reasoning Test Demo (Aon)</a>, <a href="https://www.youtube.com/watch?v=HOVQWpGQ6iw" target="_blank" rel="noopener">Verbal</a>, <a href="https://www.youtube.com/watch?v=c6WijxlpJlM" target="_blank" rel="noopener">Deductive Logic</a>, <a href="https://www.youtube.com/watch?v=1OCP-v9LrKo" target="_blank" rel="noopener">Short-Term Memory</a></li>
+    <li><a href="https://www.youtube.com/watch?v=xQ7eyt1SaBY" target="_blank" rel="noopener">IE's ieGAT practical example: scales ix (logical reasoning)</a></li>
+    <li><a href="https://www.aon.com/getmedia/3cc4d7fa-531f-4c0d-b4b3-e88afb130b74/practice-tasks-numerical-reasoning.pdf" target="_blank" rel="noopener">Aon practice tasks: Numerical Reasoning (PDF)</a>, <a href="https://www.aon.com/getmedia/a9d04647-b790-43c3-b0ec-b185ec29b23a/practice-tasks-verbal-reasoning.pdf" target="_blank" rel="noopener">Verbal Reasoning</a>, <a href="https://assets.aon.com/-/media/files/aon/capabilities/talent-and-rewards/practice-tasks--deductive-reasoning-gapchallenge.pdf" target="_blank" rel="noopener">gapChallenge</a>, <a href="https://www.aon.com/getmedia/54a05144-c659-4bcb-bb18-8613d9081845/practice-tasks-inductive-reasoning-ix.pdf" target="_blank" rel="noopener">scales ix</a></li>
+    <li><a href="https://ie.edu/university/admission/admission-process/admissions-test" target="_blank" rel="noopener">IE University: Admissions Test (bachelor)</a></li>
+    <li><a href="https://www.ie.edu/admissions/masters/admissions-process/admissions-test/" target="_blank" rel="noopener">IE: Admissions test for master's degrees (ieGAT)</a></li>
+    <li><a href="https://www.ie.edu/university/admission/online-assessment-personal-interview/" target="_blank" rel="noopener">IE University: Online assessment and personal interview (Kira)</a></li>
+    <li><a href="https://dukesplus.com/guides/ie-university-applications/" target="_blank" rel="noopener">Dukes Plus: IE University applications guide</a></li>
+    <li><a href="https://www.assessmentday.co.uk/cut-e.htm" target="_blank" rel="noopener">AssessmentDay: cut-e / Aon scales formats</a></li>
+    <li><a href="https://www.jobtestprep.com/iegat-admissions-pack" target="_blank" rel="noopener">JobTestPrep: ieGAT overview</a></li>
+    <li><a href="https://aringo.com/ie-business-school-video-questions/" target="_blank" rel="noopener">Aringo: IE Kira video questions reported by applicants</a></li>
+    <li><a href="https://www.msanchez.es/en/ie-university-kira" target="_blank" rel="noopener">M. Sánchez: IE University Kira assessment</a></li>
+  </ul>
+</template>
+
+<script>window.IE_BACKEND = { url: "https://cvfwwyscremgydmcjsxh.supabase.co", key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Znd3eXNjcmVtZ3lkbWNqc3hoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NzM1MDcsImV4cCI6MjEwMjU0OTUwN30.HA7w19LjGTAYP6MmuppQAOD55H8COiWKDi_5l8n5fCs", header: "x-ie-code", rpc: "ie_code_ok", table: "ie_prep_docs" };</script>
+<script src="verbal.js"></script>
+<script src="kira.js"></script>
+<script src="plan.js"></script>
+<script src="gen.js"></script>
+<script src="gen2.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
